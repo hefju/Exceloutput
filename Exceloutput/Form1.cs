@@ -46,15 +46,15 @@ namespace Exceloutput
                 var realColumn = 0;//列数(不包含隐藏列)
                 for (int i = 0; i < dgv.Columns.Count; i++)
                 {
-                    Console.WriteLine("{0}--{1}", dgv.Columns[realColumn].HeaderText, dgv.Columns[i].Visible);
+                    //Console.WriteLine("{0}--{1}", dgv.Columns[realColumn].HeaderText, dgv.Columns[i].Visible);
                     if (!dgv.Columns[i].Visible) continue;//不输出隐藏列
                      realColumn++;
                     //表头
-                     sheet.Cells[2, realColumn].Value = dgv.Columns[realColumn - 1].HeaderText;//第二行表头
+                     sheet.Cells[2, realColumn].Value = dgv.Columns[i].HeaderText;//第二行表头
                     //数据行
                     for (int j = 0; j < dgv.Rows.Count - 1; j++)
                     {
-                        object obj = dgv.Rows[j].Cells[realColumn-1].Value;
+                        object obj = dgv.Rows[j].Cells[i].Value;
                         if (obj != null)
                             sheet.Cells[j + 3, realColumn].Value = obj.ToString();//第三行数据行
                     }
@@ -88,7 +88,8 @@ namespace Exceloutput
             DataTable table = GetTable();
             dgv.DataSource = table;
             dgv.Columns["ID"].Visible = false;
-            //dgv.Columns["Drug"].Visible = false;
+            dgv.Columns["D4"].Visible = false;
+      
         }
         private DataTable GetTable()
         {
