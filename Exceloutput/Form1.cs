@@ -46,17 +46,19 @@ namespace Exceloutput
                 var realColumn = 0;//列数(不包含隐藏列)
                 for (int i = 0; i < dgv.Columns.Count; i++)
                 {
+                    Console.WriteLine("{0}--{1}", dgv.Columns[realColumn].HeaderText, dgv.Columns[i].Visible);
                     if (!dgv.Columns[i].Visible) continue;//不输出隐藏列
-                    realColumn++;
+                     realColumn++;
                     //表头
-                    sheet.Cells[2, realColumn].Value = dgv.Columns[realColumn].HeaderText.ToString();//第二行表头
+                     sheet.Cells[2, realColumn].Value = dgv.Columns[realColumn - 1].HeaderText;//第二行表头
                     //数据行
                     for (int j = 0; j < dgv.Rows.Count - 1; j++)
                     {
-                        object obj = dgv.Rows[j].Cells[realColumn].Value;
+                        object obj = dgv.Rows[j].Cells[realColumn-1].Value;
                         if (obj != null)
                             sheet.Cells[j + 3, realColumn].Value = obj.ToString();//第三行数据行
                     }
+                  
                 }
                 #endregion
 
@@ -86,23 +88,34 @@ namespace Exceloutput
             DataTable table = GetTable();
             dgv.DataSource = table;
             dgv.Columns["ID"].Visible = false;
+            //dgv.Columns["Drug"].Visible = false;
         }
         private DataTable GetTable()
         {
             // Here we create a DataTable with four columns.
             DataTable table = new DataTable();
             table.Columns.Add("ID", typeof(int));
-            table.Columns.Add("Dosage", typeof(int));
-            table.Columns.Add("Drug", typeof(string));
-            table.Columns.Add("Patient", typeof(string));
-            table.Columns.Add("Date", typeof(DateTime));
+            table.Columns.Add("D1", typeof(int));
+            table.Columns.Add("D2", typeof(int));
+            table.Columns.Add("D3", typeof(int));
+            table.Columns.Add("D4", typeof(int));
+            table.Columns.Add("D5", typeof(int));
+            //table.Columns.Add("Dosage", typeof(int));
+            //table.Columns.Add("Drug", typeof(string));
+            //table.Columns.Add("Patient", typeof(string));
+            //table.Columns.Add("Date", typeof(DateTime));
 
+            for (int i = 0; i < 5; i++)
+            {
+                table.Rows.Add(0, 1, 2, 3, 4, 5);
+            }
+              //  table.Rows.Add(10, 25, "Indocin", "David", DateTime.Now);
             // Here we add five DataRows.
-            table.Rows.Add(10,25, "Indocin", "David", DateTime.Now);
-            table.Rows.Add(10,50, "Enebrel", "Sam", DateTime.Now);
-            table.Rows.Add(10,10, "Hydralazine", "Christoff", DateTime.Now);
-            table.Rows.Add(10,21, "Combivent", "Janet", DateTime.Now);
-            table.Rows.Add(10,100, "Dilantin", "Melanie", DateTime.Now);
+            //table.Rows.Add(10,25, "Indocin", "David", DateTime.Now);
+            //table.Rows.Add(10,50, "Enebrel", "Sam", DateTime.Now);
+            //table.Rows.Add(10,10, "Hydralazine", "Christoff", DateTime.Now);
+            //table.Rows.Add(10,21, "Combivent", "Janet", DateTime.Now);
+            //table.Rows.Add(10,100, "Dilantin", "Melanie", DateTime.Now);
             return table;
         }
         
